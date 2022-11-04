@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import LeafletMap from './components/LeafletMap';
+import './styles.css';
+import { DateTime } from 'luxon';
 
 function App() {
+  const [ip, setIp] = useState();
+  const [country, setCountry] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(process.env.REACT_APP_IP_URL);
+      const data = await response.json();
+      setIp(data);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://restcountries.com/v3.1/alpha/${ip.location.country}`
+      );
+      const data = await response.json();
+      setCountry(data);
+    };
+    fetchData();
+  }, [ip]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      {ip && ip.ip}
+      <div className='text-3xl font-bold underline  bg-red-500'>
+        {' '}
+        {DateTime.now().setLocale('de').toLocaleString(DateTime.DATE_FULL)}
+      </div>
+      {country && <img src={country[0].flags.png} height='100' />}
+      <LeafletMap />
     </div>
   );
 }

@@ -1,0 +1,7 @@
+#map {
+  height: 500px;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
