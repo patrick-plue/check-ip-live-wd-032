@@ -28,11 +28,11 @@ function App() {
   return (
     <div className='App'>
       {ip && ip.ip}
-      <div className='text-3xl font-bold underline  bg-red-500'>
+      <div className='text-3xl font-bold underline bg-red-500'>
         {' '}
         {DateTime.now().setLocale('de').toLocaleString(DateTime.DATE_FULL)}
       </div>
-      {country && <img src={country[0].flags.png} height='100' />}
+      {country && <img src={country[0].flags.png} height='100' alt='flag' />}
       <LeafletMap />
     </div>
   );
